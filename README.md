@@ -1,6 +1,6 @@
-# DocuPro – Analisi Documenti PDF con Flask + MySQL
+# DocuPro – Analisi Documenti PDF con Flask + SQLite
 
-DocuPro è un'applicazione Flask professionale per caricare documenti PDF, analizzarli (numero di parole, pagine, parole più usate), gestire utenti, crediti, abbonamenti Stripe e pannello admin con grafici.
+DocuPro è un'applicazione Flask di esmpio per caricare documenti PDF, analizzarli (numero di parole, pagine, parole più usate), gestire utenti, crediti, abbonamenti Stripe e pannello admin con grafici.
 
 ---
 
@@ -9,7 +9,6 @@ DocuPro è un'applicazione Flask professionale per caricare documenti PDF, anali
 - Tailwind CSS
 - SQLite
 - Stripe Checkout
-- Flask-Mail
 - Chart.js (per dashboard admin)
 
 ---
@@ -24,11 +23,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2. **Configura db**
-
-3. **Configura .env** (vedi file `.env` incluso)
-
-4. **Avvia l'app:**
+2. **Avvia l'app:**
 
 ```bash
 python app.py
@@ -48,27 +43,14 @@ python app.py
 - Configura `STRIPE_SECRET_KEY` nel `.env`
 - Checkout attivo in `/account`
 
-## 📧 Email
-- Richiede Gmail (app password) o SMTP compatibile
-- Email di benvenuto e alert all’admin
-
 ---
 
-## 📂 Struttura Progetto
-```
-/templates/
-    login.html, register.html, dashboard.html, document.html,
-    account.html, admin.html, invoices.html, admin_dashboard.html
-/uploads/
-/app.py
-/requirements.txt
-/.env
-```
 
 ---
 
 ## 👨‍💻 Autore
-Generato con ❤️ da GPT-4 per un'app di analisi documenti PDF moderna e pronta per il deploy.
+A quattro mani: due di DavideFox e due di ChatGPT
+
 
 ## routing
 
