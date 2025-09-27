@@ -1,0 +1,42 @@
+<!-- Navbar -->
+<header class="bg-white shadow-md fixed w-full top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-1 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-blue-600">DocuPro</h1>
+    <nav class="space-x-2 hidden md:flex">
+      <a href="{{ url_for('routes.index') }}" class="text-gray-700 px-4 py-2 hover:text-blue-500">Home</a>
+
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('routes.dashboard') }}" class="text-gray-700 px-4 py-2 hover:text-blue-500">Documenti caricati</a>
+        <a href="{{ url_for('routes.account') }}" class="text-gray-700 px-4 py-2 hover:text-blue-500">Area personale</a>
+
+        {% if current_user.is_admin %}
+          <a href="{{ url_for('admin.admin_panel') }}" class="text-gray-700 px-4 py-2 hover:text-blue-500">Admin</a>
+          <a href="{{ url_for('admin.admin_dashboard') }}" class="text-gray-700 px-4 py-2 hover:text-blue-500">Dashboard iscritti</a>
+        {% endif %}
+
+        <a href="{{ url_for('auth.logout') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</a>
+
+      {% else %}
+        <a href="#demo" class="text-gray-700 px-4 py-2 hover:text-blue-500">Demo</a>
+        <a href="#pricing" class="text-gray-700 px-4 py-2 hover:text-blue-500">Prezzi</a>
+        <a href="{{ url_for('auth.login') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Login</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+
+
+<!-- Navbar home non connesso
+<header class="bg-white shadow-md fixed w-full top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-1 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-blue-600">DocuPro</h1>
+        <nav class="space-x-2 hidden md:flex">
+            <a href="#hero" class="text-gray-700  px-4 py-2 hover:text-blue-500">Home</a>
+            <a href="#demo" class="text-gray-700  px-4 py-2 hover:text-blue-500">Demo</a>
+            <a href="#pricing" class="text-gray-700  px-4 py-2 hover:text-blue-500">Prezzi</a>
+            <a href="/login" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Login</a>
+        </nav>
+    </div>
+</header>
+-->

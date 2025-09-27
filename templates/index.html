@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <!-- Hero Section -->
+    <section id="hero" class="h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-white pt-24">
+        <div class="text-center max-w-2xl px-4">
+            <h2 class="text-5xl font-bold text-blue-800 mb-6">Il futuro dell'analisi dei documenti</h2>
+            <p class="text-lg text-gray-600 mb-8">Analizza i tuoi PDF con precisione: numero di pagine, parole e parole chiave in un clic.</p>
+            <a href="#demo" class="bg-blue-500 text-white px-6 py-3 rounded text-lg hover:bg-blue-600">Prova Subito</a>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="py-24 bg-white">
+        <div class="max-w-5xl mx-auto text-center px-4">
+            <h3 class="text-3xl font-semibold text-gray-800 mb-6">Prova con documenti demo</h3>
+            <p class="text-gray-600 mb-8">Carica uno dei documenti seguenti per testare l’analisi in modalità demo.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <a href="#" class="block border p-6 rounded-lg shadow hover:shadow-lg transition">Demo PDF 1</a>
+                <a href="#" class="block border p-6 rounded-lg shadow hover:shadow-lg transition">Demo PDF 2</a>
+                <a href="#" class="block border p-6 rounded-lg shadow hover:shadow-lg transition">Demo PDF 3</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 bg-gray-100">
+        <div class="max-w-5xl mx-auto text-center px-4">
+            <h3 class="text-3xl font-semibold text-gray-800 mb-6">Scegli il tuo piano</h3>
+            <p class="text-gray-600 mb-12">Semplice, trasparente e pensato per i tuoi bisogni.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition">
+                    <h4 class="text-xl font-bold mb-4 text-blue-700">Starter</h4>
+                    <p class="text-3xl font-extrabold mb-2">€9</p>
+                    <p class="text-gray-600 mb-6">20 documenti / mese</p>
+                    <a href="/login" class="block bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Attiva</a>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg border-2 border-blue-500">
+                    <h4 class="text-xl font-bold mb-4 text-blue-700">Pro</h4>
+                    <p class="text-3xl font-extrabold mb-2">€29</p>
+                    <p class="text-gray-600 mb-6">100 documenti / mese</p>
+                    <a href="/login" class="block bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Attiva</a>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition">
+                    <h4 class="text-xl font-bold mb-4 text-blue-700">Enterprise</h4>
+                    <p class="text-3xl font-extrabold mb-2">€49</p>
+                    <p class="text-gray-600 mb-6">200 documenti / mese</p>
+                    <a href="/login" class="block bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Attiva</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

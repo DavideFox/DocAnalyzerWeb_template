@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="max-w-6xl mx-auto bg-white p-8 rounded shadow mt-24 mb-24">
+        <h1 class="text-3xl font-bold text-blue-700 mb-6">Dashboard Amministratore</h1>
+
+        <form method="GET" class="flex items-center gap-4 mb-8">
+            <input type="date" name="from" value="{{ request.args.get('from', '') }}" class="p-2 border rounded">
+            <input type="date" name="to" value="{{ request.args.get('to', '') }}" class="p-2 border rounded">
+            <input type="text" name="email" placeholder="Email utente" value="{{ request.args.get('email', '') }}" class="p-2 border rounded">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded">Filtra</button>
+        </form>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Utenti Registrati</h2>
+                <p class="text-4xl text-blue-600">{{ stats['user_count'] }}</p>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-2">Documenti Totali</h2>
+                <p class="text-4xl text-green-600">{{ stats['document_count'] }}</p>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-semibold mb-4">Documenti per Mese</h2>
+            <canvas id="docsChart" height="100"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('docsChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ months | safe }},
+                datasets: [{
+                    label: 'Documenti caricati',
+                    data: {{ counts | safe }},
+                    backgroundColor: 'rgba(59, 130, 246, 0.7)'
+                }]
+            }
+        });
+    </script>
+
+{% endblock %}

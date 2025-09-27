@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DocuPro | Analisi PDF Intelligente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> da includere se si ha il file style.css-->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+  {% include 'navbar.html' %}
+  <main  class="flex-grow">
+    {% block content %}{% endblock %}
+  </main>
+  {% include 'footer.html' %}
+  <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> da includere se si ha il file script.js-->
+</body>
+</html>
