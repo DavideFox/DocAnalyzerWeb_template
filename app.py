@@ -49,6 +49,7 @@ if __name__ == '__main__':
 @app.route('/dashboard')
 @app.route('/upload', methods=['POST'])
 @app.route('/document/<int:doc_id>')
+@app.route('/document_demo/')
 @app.route('/account')
 @app.route('/create-checkout-session', methods=['POST'])
 @app.route('/success')

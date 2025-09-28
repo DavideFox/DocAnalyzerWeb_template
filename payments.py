@@ -10,9 +10,9 @@ bp = Blueprint('payments', __name__)
 stripe.api_key = 'sk_test_...'
 DOMAIN = 'http://localhost:5000'
 PRICING = {
-    "starter": {"price": 9, "credits": 20},
-    "pro": {"price": 29, "credits": 100},
-    "enterprise": {"price": 49, "credits": 200}
+    "starter": {"price": 19, "credits": 50},
+    "pro": {"price": 49, "credits": 200},
+    "enterprise": {"price": 89, "credits": 500}
 }
 
 

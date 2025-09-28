@@ -13,7 +13,7 @@
                 <h3 class="text-lg font-semibold mb-2">Documenti caricati</h3>
                 <ul class="space-y-2 text-sm">
                     {% for doc in documents %}
-                        <li><a href="{{ url_for('document', doc_id=doc['id']) }}" class="text-blue-500 hover:underline">{{ doc['filename'] }}</a></li>
+                        <li><a href="{{ url_for('routes.document', doc_id=doc['id']) }}" class="text-blue-500 hover:underline">{{ doc['filename'] }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

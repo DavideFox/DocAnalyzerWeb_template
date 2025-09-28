@@ -64,6 +64,21 @@ def document(doc_id):
     return render_template('document.html', doc=doc, top_words=top_words)
 
 
+@bp.route('/document_demo')
+def document_demo():
+    doc = {
+        "filename": "LucioBattisti_biografia.pdf",
+        "word_count": 6047,
+        "page_count": 12,
+        "top_words": [["Battisti", 74],["canzone",33],["piú",30],["successo",23],["Battisti,",21],
+                        ["stesso",21],["disco",21],["testi",20],["anni",20],["Mogol",18],["Mogol,",16],
+                        ["Lucio",15],["primo",13],["-",12],["viene",12],["album",12],["due",11],
+                        ["brano",11],["Battisti.",10],["quali",9]],
+    }
+    top_words = doc['top_words']
+    return render_template('document.html', doc=doc, top_words=top_words)
+
+
 @bp.route('/account')
 @login_required
 def account():
