@@ -1,23 +1,55 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DocuPro | Analisi PDF Intelligente</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> da includere se si ha il file style.css-->
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DocuPro | Analisi PDF Intelligente</title>
+
+
+    
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DocuPro | Analisi PDF Intelligente</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom css -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+  <!-- Custom styles (fonts, colors, smooth scroll) -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      background-color: #f9fafb; /* Tailwind gray-50 */
+      color: #1f2937; /* Tailwind gray-800 */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      color: #0d6efd !important;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+<body>
+
+<body>
+  <!-- Navbar -->
   {% include 'navbar.html' %}
-  <main  class="flex-grow">
+  <!-- Main content -->
+  <main class="flex-grow-1 pt-5 mt-5 hero-gradient">
     {% block content %}{% endblock %}
   </main>
+  <!-- Footer -->
   {% include 'footer.html' %}
-  <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> da includere se si ha il file script.js-->
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

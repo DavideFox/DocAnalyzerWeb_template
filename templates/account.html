@@ -1,37 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <div class="max-w-3xl mx-auto bg-white p-8 rounded shadow mt-24 mb-24">
-        <h1 class="text-3xl font-bold text-blue-700 mb-6">Il mio account</h1>
+<div class="container my-5 py-5 ">
+  <div class="mx-auto bg-white p-5 p-md-6 rounded shadow-sm" style="max-width: 800px;">
+    <h1 class="fw-bold text-primary mb-4">Il mio account</h1>
 
-        <div class="mb-6">
-            <p><strong>Email:</strong> {{ user['email'] }}</p>
-            <p><strong>Crediti disponibili:</strong> {{ user['credits'] }}</p>
-        </div>
-
-        <h2 class="text-xl font-semibold text-gray-800 mb-2">Abbonamento</h2>
-        <p class="text-sm text-gray-600 mb-4">Scegli un piano per ricaricare i tuoi crediti.</p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <form action="/create-checkout-session" method="POST">
-                <input type="hidden" name="plan" value="starter">
-                <button class="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600">
-                    Starter<br>€19 - 50 crediti
-                </button>
-            </form>
-            <form action="/create-checkout-session" method="POST">
-                <input type="hidden" name="plan" value="pro">
-                <button class="w-full bg-green-500 text-white p-3 rounded hover:bg-green-600">
-                    Pro<br>€49 - 200 crediti
-                </button>
-            </form>
-            <form action="/create-checkout-session" method="POST">
-                <input type="hidden" name="plan" value="enterprise">
-                <button class="w-full bg-purple-500 text-white p-3 rounded hover:bg-purple-600">
-                    Enterprise<br>€89 - 500 crediti
-                </button>
-            </form>
-        </div>
+    <div class="mb-4">
+      <p class="mb-1"><strong>Email:</strong> {{ user['email'] }}</p>
+      <p><strong>Crediti disponibili:</strong> {{ user['credits'] }}</p>
     </div>
+
+    <h2 class="h5 fw-semibold text-dark mb-2">Abbonamento</h2>
+    <p class="text-muted small mb-4">Scegli un piano per ricaricare i tuoi crediti.</p>
+
+    <div class="row g-3">
+      <!-- Starter -->
+      <div class="col-12 col-md-4">
+        <form action="/create-checkout-session" method="POST" class="h-100">
+          <input type="hidden" name="plan" value="starter">
+          <button type="submit" class="btn btn-primary w-100 h-100 py-3 fw-semibold shadow-sm transition-all">
+            Starter<br><span class="fw-normal">€19 – 50 crediti</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Pro -->
+      <div class="col-12 col-md-4">
+        <form action="/create-checkout-session" method="POST" class="h-100">
+          <input type="hidden" name="plan" value="pro">
+          <button type="submit" class="btn btn-success w-100 h-100 py-3 fw-semibold shadow-sm transition-all">
+            Pro<br><span class="fw-normal">€49 – 200 crediti</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="col-12 col-md-4">
+        <form action="/create-checkout-session" method="POST" class="h-100">
+          <input type="hidden" name="plan" value="enterprise">
+          <button type="submit" class="btn btn-purple w-100 h-100 py-3 fw-semibold shadow-sm transition-all">
+            Enterprise<br><span class="fw-normal">€89 – 500 crediti</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

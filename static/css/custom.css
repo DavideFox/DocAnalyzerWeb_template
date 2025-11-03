@@ -1,0 +1,114 @@
+/* === Custom styles to restore Tailwind-like visuals === ------------------------------------*/
+
+/* Hero gradient background */
+.hero-gradient {
+  background: linear-gradient(to right, #dbeafe, #ffffff); /* from-blue-100 to-white */
+}
+
+/* Hover shadow similar to Tailwind hover:shadow-lg */
+.hover-shadow:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Button hover intensity tweak */
+.btn-primary:hover {
+  background-color: #1d4ed8; /* darker blue, like Tailwind hover:bg-blue-600 */
+}
+
+/* Demo link hover background */
+a.hover-shadow:hover {
+  background-color: #f3f4f6; /* Tailwind gray-100 */
+}
+
+
+
+/* === account.html extra styles === ---------------------------------------------------------*/
+
+/* Purple Bootstrap-like button */
+.btn-purple {
+  background-color: #6f42c1;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-purple:hover {
+  background-color: #59359a;
+  color: #fff;
+}
+
+/* Smooth transitions for plan buttons */
+.btn-primary:hover,
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* === ADMIN DASHBOARD STYLES === ------------------------------------------------------------*/
+
+/* Smooth transition for buttons and cards */
+button,
+.btn {
+  transition: all 0.25s ease-in-out;
+}
+
+/* Hover glow effect on primary buttons */
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Subtle shadow and scale on card hover */
+.shadow-sm:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Statistic blocks - soft colored accent on hover */
+.stats-box {
+  border-left: 4px solid transparent;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.stats-box:hover {
+  border-left-color: #0d6efd;
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+  .form-label {    font-size: 0.9rem;  }
+  .btn {    font-size: 0.95rem;  }
+}
+
+
+
+/* === DASHBOARD STYLES === ----------------------------------------------------------*/
+
+/* Sidebar sticky on larger screens */
+@media (min-width: 768px) {
+  aside {
+    position: sticky;
+    top: 90px;
+    height: calc(100vh - 120px);
+  }
+}
+
+/* Hover effect for document links */
+.hover-shadow:hover {
+  text-decoration: underline;
+  color: #0d6efd;
+}
+
+/* Sidebar adjustments for mobile */
+@media (max-width: 767px) {
+  aside {
+    text-align: center;
+  }
+  aside h2 {
+    font-size: 1.25rem;
+  }
+  aside ul {
+    padding-left: 0;
+  }
+}
+

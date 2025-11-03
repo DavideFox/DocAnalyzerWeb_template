@@ -1,20 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
 
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8" />
-    <title>Login - DocuPro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">Login</h2>
-        <form method="POST">
-            <input type="email" name="email" placeholder="Email" class="w-full p-3 border rounded mb-4" required>
-            <input type="password" name="password" placeholder="Password" class="w-full p-3 border rounded mb-6" required>
-            <button class="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700">Accedi</button>
-        </form>
-        <p class="mt-4 text-center text-sm">Non hai un account? <a href="/register" class="text-blue-500">Registrati</a></p>
-    </div>
-</body>
-</html>
+<div class="d-flex align-items-center justify-content-center min-vh-100 py-5">
+  <div class="card shadow-sm border-0 p-4" style="max-width: 400px; width: 100%;">
+    <h2 class="text-center text-primary fw-bold mb-4">Login</h2>
+
+    <form method="POST">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input 
+          type="email" 
+          class="form-control" 
+          id="email" 
+          name="email" 
+          placeholder="Inserisci la tua email" 
+          required>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="form-label">Password</label>
+        <input 
+          type="password" 
+          class="form-control" 
+          id="password" 
+          name="password" 
+          placeholder="Inserisci la tua password" 
+          required>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 py-2">
+        Accedi
+      </button>
+    </form>
+
+    <p class="text-center text-muted mt-3 mb-0">
+      Non hai un account?
+      <a href="/register" class="text-primary fw-semibold text-decoration-none">
+        Registrati
+      </a>
+    </p>
+  </div>
+</div>
+
+{% endblock %}

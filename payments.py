@@ -7,7 +7,7 @@ bp = Blueprint('payments', __name__)
 
 
 # -------- Stipe configuration --------
-stripe.api_key = 'sk_test_...'
+stripe.api_key = 'stripe_api_key' #'sk_test_...'
 DOMAIN = 'http://localhost:5000'
 PRICING = {
     "starter": {"price": 19, "credits": 50},

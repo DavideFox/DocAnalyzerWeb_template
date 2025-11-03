@@ -1,31 +1,66 @@
-<!-- Navbar -->
-<header class="bg-white shadow-md fixed w-full top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 py-1 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-blue-600">DocuPro</h1>
-    <nav class="space-x-2 hidden md:flex">
-      <a href="{{ url_for('routes.index') }}" class="text-gray-700 px-4 py-2 hover:text-blue-500">Home</a>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('routes.index') }}">DocuPro</a>
 
-      {% if current_user.is_authenticated %}
-        <a href="{{ url_for('routes.dashboard') }}" class="text-gray-700 px-4 py-2 hover:text-blue-500">Documenti caricati</a>
-        <a href="{{ url_for('routes.account') }}" class="text-gray-700 px-4 py-2 hover:text-blue-500">Area personale</a>
+      <!-- Toggle button for mobile -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarResponsive"
+        aria-controls="navbarResponsive"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-        {% if current_user.is_admin %}
-          <a href="{{ url_for('admin.admin_panel') }}" class="text-gray-700 px-4 py-2 hover:text-blue-500">Admin</a>
-          <a href="{{ url_for('admin.admin_dashboard') }}" class="text-gray-700 px-4 py-2 hover:text-blue-500">Dashboard iscritti</a>
-        {% endif %}
+      <!-- Collapsible Menu -->
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
 
-        <a href="{{ url_for('auth.logout') }}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Logout</a>
+          <li class="nav-item">
+            <a href="{{ url_for('routes.index') }}" class="nav-link">Home</a>
+          </li>
 
-      {% else %}
-        <a href="#demo" class="text-gray-700 px-4 py-2 hover:text-blue-500">Demo</a>
-        <a href="#pricing" class="text-gray-700 px-4 py-2 hover:text-blue-500">Prezzi</a>
-        <a href="{{ url_for('auth.login') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Login</a>
-      {% endif %}
-    </nav>
-  </div>
-</header>
+          {% if current_user.is_authenticated %}
+            <li class="nav-item">
+              <a href="{{ url_for('routes.dashboard') }}" class="nav-link">Documenti caricati</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url_for('routes.account') }}" class="nav-link">Area personale</a>
+            </li>
 
+            {% if current_user.is_admin %}
+              <li class="nav-item">
+                <a href="{{ url_for('admin.admin_panel') }}" class="nav-link">Admin</a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('admin.admin_dashboard') }}" class="nav-link">Dashboard iscritti</a>
+              </li>
+            {% endif %}
 
+            <li class="nav-item mt-2 mt-md-0">
+              <a href="{{ url_for('auth.logout') }}" class="btn btn-danger ms-md-3 w-100 w-md-auto">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a href="#demo" class="nav-link">Demo</a>
+            </li>
+            <li class="nav-item">
+              <a href="#pricing" class="nav-link">Prezzi</a>
+            </li>
+            <li class="nav-item mt-2 mt-md-0">
+              <a href="{{ url_for('auth.login') }}" class="btn btn-primary ms-md-3 w-100 w-md-auto">Login</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  
 
 <!-- Navbar home non connesso
 <header class="bg-white shadow-md fixed w-full top-0 z-50">
