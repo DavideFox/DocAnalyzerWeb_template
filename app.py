@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
-from db import init_db, get_db, User
-import os
+from db import db, init_db, User
 from auth import bp as auth_bp
 from routes import bp as routes_bp
 from payments import bp as payments_bp
@@ -12,31 +11,41 @@ from admin import bp as admin_bp
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
+# -------- Configurazione Database --------
+# PostgreSQL
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user:password@localhost/miodb'
+# MySQL
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://user:password@localhost/miodb'
+#SQLite
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# -------- Inizializzazione Database --------
+init_db(app)
+
 
 # -------- Flask-Login setup --------
 login_manager = LoginManager(app)
 login_manager.login_view = "auth.login"
 
+
 @login_manager.user_loader
 def load_user(user_id):
-    conn = get_db()
-    row = conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
-    if row:
-        return User(row["id"], row["email"], row["role"], row["credits"])
-    return None
+    # SQLAlchemy gestisce le query in modo ORM
+    return User.query.get(int(user_id))
 
 
-# -------- Import blueprints --------
+# -------- Registrazione Blueprint --------
 app.register_blueprint(auth_bp)
 app.register_blueprint(routes_bp)
 app.register_blueprint(payments_bp)
 app.register_blueprint(admin_bp)
 
 
-# -------- Start --------
+# -------- Avvio App --------
 if __name__ == '__main__':
-    init_db()
     app.run(debug=True)
+
 
 
 

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-from db import get_db
+from db import db, User, Document
 import os, pdfplumber, json
 from collections import Counter
 import nltk
@@ -20,47 +20,57 @@ def index():
 @bp.route('/dashboard')
 @login_required
 def dashboard():
-    conn = get_db()
-    user = conn.execute('SELECT * FROM users WHERE id = ?', (current_user.id,)).fetchone()
-    documents = conn.execute('SELECT * FROM documents WHERE user_id = ?', (current_user.id,)).fetchall()
-    return render_template('dashboard.html', credits=user['credits'], documents=documents)
+    # Recupera utente e documenti tramite ORM
+    user = User.query.get(current_user.id)
+    documents = Document.query.filter_by(user_id=current_user.id).order_by(Document.created_at.desc()).all()
+    return render_template('dashboard.html', credits=user.credits, documents=documents)
 
 
 @bp.route('/upload', methods=['POST'])
 @login_required
 def upload():
     file = request.files['document']
-    if file and file.filename.endswith('.pdf'):
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(UPLOAD_FOLDER, filename)
-        file.save(filepath)
-        with pdfplumber.open(filepath) as pdf:
-            text = ''.join(page.extract_text() or '' for page in pdf.pages)
-            words = text.split()
-            stop_it = set(nltk.corpus.stopwords.words('italian'))
-            filtered_words = [w for w in words if w.lower() not in stop_it]
-            top_words = Counter(filtered_words).most_common(20)
-            conn = get_db()
-            user = conn.execute('SELECT * FROM users WHERE id = ?', (current_user.id,)).fetchone()
-            if user['credits'] <= 0:
-                flash("Crediti esauriti.")
-                return redirect(url_for('routes.dashboard'))
-            conn.execute('UPDATE users SET credits = credits - 1 WHERE id = ?', (current_user.id,))
-            conn.execute('INSERT INTO documents (user_id, filename, word_count, page_count, top_words) VALUES (?, ?, ?, ?, ?)',
-                         (current_user.id, filename, len(words), len(pdf.pages), json.dumps(top_words)))
-            conn.commit()
+    if not file or not file.filename.endswith('.pdf'):
+        flash("Carica un file PDF valido.")
         return redirect(url_for('routes.dashboard'))
+    filename = secure_filename(file.filename)
+    filepath = os.path.join(UPLOAD_FOLDER, filename)
+    file.save(filepath)
+    # elabora file
+    with pdfplumber.open(filepath) as pdf:
+        text = ''.join(page.extract_text() or '' for page in pdf.pages)
+        words = text.split()
+        stop_it = set(nltk.corpus.stopwords.words('italian'))
+        filtered_words = [w for w in words if w.lower() not in stop_it]
+        top_words = Counter(filtered_words).most_common(20)
+        # Aggiorna i crediti dell’utente
+        user = User.query.get(current_user.id)
+        if user.credits <= 0:
+            flash("Crediti esauriti.")
+            return redirect(url_for('routes.dashboard'))
+        user.credits -= 1
+        # Crea nuovo documento
+        new_doc = Document(
+            user_id=current_user.id,
+            filename=filename,
+            word_count=len(words),
+            page_count=len(pdf.pages),
+            top_words=json.dumps(top_words)
+        )
+        db.session.add(new_doc)
+        db.session.commit()
+    flash("Documento caricato con successo!")
+    return redirect(url_for('routes.dashboard'))
 
 
 @bp.route('/document/<int:doc_id>')
 @login_required
 def document(doc_id):
-    conn = get_db()
-    doc = conn.execute('SELECT * FROM documents WHERE id = ? AND user_id = ?', (doc_id, current_user.id)).fetchone()
+    doc = Document.query.filter_by(id=doc_id, user_id=current_user.id).first()
     if not doc:
         flash("Documento non trovato.")
         return redirect(url_for('routes.dashboard'))
-    top_words = json.loads(doc['top_words'])
+    top_words = json.loads(doc.top_words or "[]")
     return render_template('document.html', doc=doc, top_words=top_words)
 
 
@@ -70,18 +80,19 @@ def document_demo():
         "filename": "LucioBattisti_biografia.pdf",
         "word_count": 6047,
         "page_count": 12,
-        "top_words": [["Battisti", 74],["canzone",33],["piú",30],["successo",23],["Battisti,",21],
-                        ["stesso",21],["disco",21],["testi",20],["anni",20],["Mogol",18],["Mogol,",16],
-                        ["Lucio",15],["primo",13],["-",12],["viene",12],["album",12],["due",11],
-                        ["brano",11],["Battisti.",10],["quali",9]],
+        "top_words": [
+            ["Battisti", 74], ["canzone", 33], ["più", 30], ["successo", 23],
+            ["Battisti,", 21], ["stesso", 21], ["disco", 21], ["testi", 20],
+            ["anni", 20], ["Mogol", 18], ["Mogol,", 16], ["Lucio", 15],
+            ["primo", 13], ["-", 12], ["viene", 12], ["album", 12],
+            ["due", 11], ["brano", 11], ["Battisti.", 10], ["quali", 9],
+        ],
     }
-    top_words = doc['top_words']
-    return render_template('document.html', doc=doc, top_words=top_words)
+    return render_template('document.html', doc=doc, top_words=doc['top_words'])
 
 
 @bp.route('/account')
 @login_required
 def account():
-    conn = get_db()
-    user = conn.execute('SELECT * FROM users WHERE id = ?', (current_user.id,)).fetchone()
+    user = User.query.get(current_user.id)
     return render_template('account.html', user=user)

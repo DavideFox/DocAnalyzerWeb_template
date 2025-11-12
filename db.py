@@ -1,16 +1,64 @@
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from datetime import datetime
 
-DATABASE = 'users.db'
+# Istanza globale del database (da inizializzare in app.py)
+db = SQLAlchemy()
 
-def get_db():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    return conn
 
-def init_db():
-    conn = get_db()
-    conn.execute('''
+# ----------------------- MODELLI DEL DATABASE -----------------------
+
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    credits = db.Column(db.Integer, default=10)
+    role = db.Column(db.String(50), default='user')
+
+    documents = db.relationship('Document', backref='user', lazy=True)
+
+    @property
+    def is_admin(self):
+        return self.id == 1 or self.role == "admin"
+
+    def __repr__(self):
+        return f"<User {self.email}>"
+
+
+class Document(db.Model):
+    __tablename__ = 'documents'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    filename = db.Column(db.String(255), nullable=False)
+    word_count = db.Column(db.Integer)
+    page_count = db.Column(db.Integer)
+    top_words = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"<Document {self.filename}>"
+
+
+
+# ----------------------- FUNZIONE DI INIZIALIZZAZIONE -----------------------
+
+def init_db(app):
+    """    Inizializza il database collegandolo a Flask. Crea le tabelle se non esistono.    """
+    db.init_app(app)
+
+    with app.app_context():
+        db.create_all()
+
+
+
+
+
+'''
+DB tabels
+
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT NOT NULL UNIQUE,
@@ -18,8 +66,7 @@ def init_db():
             credits INTEGER DEFAULT 10,
             role TEXT DEFAULT 'user'
         )
-    ''')
-    conn.execute('''
+
         CREATE TABLE IF NOT EXISTS documents (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
@@ -29,20 +76,4 @@ def init_db():
             top_words TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-    ''')
-    conn.commit()
-    conn.close()
-
-
-
-# Flask-Login User class
-class User(UserMixin):
-    def __init__(self, id, email, role, credits):
-        self.id = id
-        self.email = email
-        self.role = role
-        self.credits = credits
-
-    @property
-    def is_admin(self):   #it sets the admin
-        return self.id == 1 or self.role == "admin"
+'''

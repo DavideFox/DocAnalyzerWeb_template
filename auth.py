@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
-from db import get_db, User
+from db import db, User
 
 bp = Blueprint('auth', __name__)
 
@@ -11,11 +11,10 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        conn = get_db()
-        user = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
-        if user and check_password_hash(user['password'], password):
-            user_obj = User(user["id"], user["email"], user["role"], user["credits"])
-            login_user(user_obj)
+        # Cerca l'utente nel database tramite SQLAlchemy
+        user = User.query.filter_by(email=email).first()         
+        if user and check_password_hash(user.password, password):
+            login_user(user)
             return redirect(url_for('routes.dashboard'))
         flash('Credenziali non valide.')
     return render_template('login.html')
@@ -25,14 +24,19 @@ def login():
 def register():
     if request.method == 'POST':
         email = request.form['email']
-        password = generate_password_hash(request.form['password'])
-        conn = get_db()
-        try:
-            conn.execute('INSERT INTO users (email, password) VALUES (?, ?)', (email, password))
-            conn.commit()
-            return redirect(url_for('auth.login'))
-        except:
+        password_hash = generate_password_hash(request.form['password']) 
+        # Controlla se l'email è già registrata
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
             flash('Email già registrata.')
+            return redirect(url_for('auth.register'))
+        # Crea un nuovo utente
+        new_user = User(email=email, password=password_hash)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Registrazione completata. Puoi ora effettuare il login.')
+        return redirect(url_for('auth.login'))
+
     return render_template('register.html')
 
 

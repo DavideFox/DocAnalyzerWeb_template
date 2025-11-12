@@ -7,7 +7,7 @@ DocuPro è un'applicazione Flask di esmpio per caricare documenti PDF, analizzar
 ## 🛠️ Tecnologie
 - Python + Flask
 - Custom CSS e Bootstrap 5
-- SQLite
+- SQLAlchemy
 - Stripe Checkout
 - Chart.js (per dashboard admin)
 
