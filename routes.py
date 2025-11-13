@@ -5,6 +5,7 @@ from db import db, User, Document
 import os, pdfplumber, json
 from collections import Counter
 import nltk
+import io
 
 bp = Blueprint('routes', __name__)
 UPLOAD_FOLDER = 'uploads'
@@ -34,10 +35,10 @@ def upload():
         flash("Carica un file PDF valido.")
         return redirect(url_for('routes.dashboard'))
     filename = secure_filename(file.filename)
-    filepath = os.path.join(UPLOAD_FOLDER, filename)
-    file.save(filepath)
+    #filepath = os.path.join(UPLOAD_FOLDER, filename)
+    #file.save(filepath)
     # elabora file
-    with pdfplumber.open(filepath) as pdf:
+    with pdfplumber.open(io.BytesIO(file.read())) as pdf:
         text = ''.join(page.extract_text() or '' for page in pdf.pages)
         words = text.split()
         stop_it = set(nltk.corpus.stopwords.words('italian'))
@@ -77,7 +78,7 @@ def document(doc_id):
 @bp.route('/document_demo')
 def document_demo():
     doc = {
-        "filename": "LucioBattisti_biografia.pdf",
+        "filename": "uploads/LucioBattisti_biografia.pdf",
         "word_count": 6047,
         "page_count": 12,
         "top_words": [
